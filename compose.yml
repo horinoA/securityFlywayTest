@@ -15,14 +15,14 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: testDB
+      POSTGRES_DB: flywayTest
     volumes:
       - db-data:/var/lib/postgresql/data
 
   pgadmin4:
     image: 'dpage/pgadmin4'
     ports:
-      - "8080:80"
+      - "8000:80"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
       # pgadmin起動時にサーバー接続設定をservers.jsonにて行う
