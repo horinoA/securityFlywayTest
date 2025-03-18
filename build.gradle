@@ -44,6 +44,7 @@ flyway {
 	user = 'user'  // ユーザー名
 	password = 'password'  // パスワード
 	locations = ['classpath:db/migration']  // マイグレーションファイルの場所
+	cleanDisabled = false //flywayCleanコマンドを使用できるように
 }
 
 tasks.named('test') {
