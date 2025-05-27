@@ -15,6 +15,7 @@ CREATE TABLE roles (
 create unique index on roles(id);
 
 CREATE TABLE userRole (
+
     id bigint NOT NULL,
     userId bigint NOT NULL,
     roleId integer
