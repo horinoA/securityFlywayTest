@@ -1,11 +1,16 @@
 package com.example.securityFlywayTest.util;
 
+import java.util.Locale;
+
 import org.springframework.stereotype.Component;
+
+import com.example.securityFlywayTest.service.MessageService;
 
 @Component
 public class SnowflakeIdGenerator {
     private final long nodeId;
-    private final static long EPOCH = 1745852400000L;//20250429のはず！
+    private final long epoch;//20250429のはず！
+    private MessageService messageService;
     private final static long NODE_ID_BITS = 10L;
     private final static long MAX_NODE_ID = ~(-1L << NODE_ID_BITS);
     private final static long SEQUENCE_BITS = 12L;
@@ -17,18 +22,21 @@ public class SnowflakeIdGenerator {
     private long lastTimestamp = -1L;
     private long sequence = 0L;
 
-    public SnowflakeIdGenerator(SnowflakeProperties props) {
+    
+    public SnowflakeIdGenerator(SnowflakeProperties props, MessageService messageService) {
+        this.messageService = messageService;
         if (props.getNodeId() < 0 || props.getNodeId() > MAX_NODE_ID) {
-            throw new IllegalArgumentException("ノードIDが無効です (0 ～ " + MAX_NODE_ID + ")");
+            throw new IllegalArgumentException(messageService.getinvalidnodeid(MAX_NODE_ID));
         }
         this.nodeId = props.getNodeId();
+        this.epoch = props.getEpoch();
     }
 
     public synchronized long nextId() {
         long currentTimestamp = timeGen();
 
         if (currentTimestamp < lastTimestamp) {
-            throw new RuntimeException("システムクロックが逆行しました。");
+            throw new RuntimeException(messageService.getMessageSource().getMessage("error.retrogradelockid",null, Locale.JAPAN));
         }
 
         if (currentTimestamp == lastTimestamp) {
@@ -42,7 +50,7 @@ public class SnowflakeIdGenerator {
 
         lastTimestamp = currentTimestamp;
 
-        return ((currentTimestamp - EPOCH) << TIMESTAMP_SHIFT)
+        return ((currentTimestamp - epoch) << TIMESTAMP_SHIFT)
                 | (nodeId << NODE_ID_SHIFT)
                 | sequence;
     }
