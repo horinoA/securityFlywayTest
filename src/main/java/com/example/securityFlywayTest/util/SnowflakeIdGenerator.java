@@ -8,8 +8,8 @@ import com.example.securityFlywayTest.service.MessageService;
 
 @Component
 public class SnowflakeIdGenerator {
-    private final long nodeId;
-    private final long epoch;//20250429のはず！
+    private final long nodeId; 
+    private final static long EPOCH = 1749123637176L;
     private MessageService messageService;
     private final static long NODE_ID_BITS = 10L;
     private final static long MAX_NODE_ID = ~(-1L << NODE_ID_BITS);
@@ -29,7 +29,6 @@ public class SnowflakeIdGenerator {
             throw new IllegalArgumentException(messageService.getinvalidnodeid(MAX_NODE_ID));
         }
         this.nodeId = props.getNodeId();
-        this.epoch = props.getEpoch();
     }
 
     public synchronized long nextId() {
@@ -50,7 +49,7 @@ public class SnowflakeIdGenerator {
 
         lastTimestamp = currentTimestamp;
 
-        return ((currentTimestamp - epoch) << TIMESTAMP_SHIFT)
+        return ((currentTimestamp - EPOCH) << TIMESTAMP_SHIFT)
                 | (nodeId << NODE_ID_SHIFT)
                 | sequence;
     }
