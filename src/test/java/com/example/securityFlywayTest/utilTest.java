@@ -1,5 +1,7 @@
 package com.example.securityFlywayTest;
 
+import java.util.Locale;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,5 +25,6 @@ class utilTest {
     @Test
     void getMessegeService(){
         System.out.println(messageService.getinvalidnodeid(~(-1L << 10l)));
+        System.out.println(messageService.getMessageSource().getMessage("error.retrogradelockid",null, Locale.JAPAN));
     }
 }
