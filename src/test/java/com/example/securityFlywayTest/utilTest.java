@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.securityFlywayTest.service.IdService;
-import com.example.securityFlywayTest.service.MessageService;
+import com.example.securityFlywayTest.util.MessageService;
 
 @SpringBootTest
 class utilTest {

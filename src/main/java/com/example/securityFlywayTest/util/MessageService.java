@@ -1,4 +1,4 @@
-package com.example.securityFlywayTest.service;
+package com.example.securityFlywayTest.util;
 
 import java.util.Locale;
 

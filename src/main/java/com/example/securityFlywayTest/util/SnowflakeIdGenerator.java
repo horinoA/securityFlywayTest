@@ -4,8 +4,6 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Component;
 
-import com.example.securityFlywayTest.service.MessageService;
-
 @Component
 public class SnowflakeIdGenerator {
     private final long nodeId; 

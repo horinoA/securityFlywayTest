@@ -1,4 +1,4 @@
-package com.example.securityFlywayTest.util;
+package com.example.securityFlywayTest.validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
