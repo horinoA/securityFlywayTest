@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SnowflakeIdGenerator {
     private final long nodeId; 
-    private final static long EPOCH = 1749123637176L;
+    private final long EPOCH;
     private MessageService messageService;
     private final static long NODE_ID_BITS = 10L;
     private final static long MAX_NODE_ID = ~(-1L << NODE_ID_BITS);
@@ -27,6 +27,7 @@ public class SnowflakeIdGenerator {
             throw new IllegalArgumentException(messageService.getinvalidnodeid(MAX_NODE_ID));
         }
         this.nodeId = props.getNodeId();
+        this.EPOCH = props.getEpoch();
     }
 
     public synchronized long nextId() {

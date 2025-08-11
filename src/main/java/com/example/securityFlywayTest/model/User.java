@@ -13,6 +13,5 @@ public record User(
     @NotEmpty
     @Email
     String email,
-    String password,
-    boolean enabled
+    String password
 ) {} 

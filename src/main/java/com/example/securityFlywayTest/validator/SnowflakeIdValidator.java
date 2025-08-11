@@ -1,7 +1,5 @@
 package com.example.securityFlywayTest.validator;
 
-import com.example.securityFlywayTest.util.SnowflakeUtils;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
