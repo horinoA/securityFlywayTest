@@ -17,13 +17,13 @@ public class UserModelTest {
     //24142424011968512
     @Test
     void userVaridSnowflakeTest()   {
-        User user = new User(24142424011968512L, "", "");
+        User user = new User(24142424011968512L, "test@exsample.com", "password");
         Set<ConstraintViolation<User>> result =
         Validation
         .buildDefaultValidatorFactory()
         .getValidator()
         .validate(user);
-
+        System.out.println(result);
     }
     
 }
