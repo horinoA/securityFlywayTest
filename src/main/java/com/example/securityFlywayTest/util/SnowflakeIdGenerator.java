@@ -6,16 +6,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SnowflakeIdGenerator {
-    private final long nodeId; 
-    private final long EPOCH;
+    
     private MessageService messageService;
-    private final static long NODE_ID_BITS = 10L;
-    private final static long MAX_NODE_ID = ~(-1L << NODE_ID_BITS);
-    private final static long SEQUENCE_BITS = 12L;
+    
+    private final long nodeId; 
+    private final long epoch;
+    private final long node_id_bits;
+    private final long sequence_bits;
 
-    private final static long NODE_ID_SHIFT = SEQUENCE_BITS;
-    private final static long TIMESTAMP_SHIFT = SEQUENCE_BITS + NODE_ID_BITS;
-    private final static long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
+    private final long NODE_ID_SHIFT;
+    private final long TIMESTAMP_SHIFT;
+    private final long SEQUENCE_MASK;
 
     private long lastTimestamp = -1L;
     private long sequence = 0L;
@@ -23,11 +24,16 @@ public class SnowflakeIdGenerator {
     
     public SnowflakeIdGenerator(SnowflakeProperties props, MessageService messageService) {
         this.messageService = messageService;
-        if (props.getNodeId() < 0 || props.getNodeId() > MAX_NODE_ID) {
-            throw new IllegalArgumentException(messageService.getinvalidnodeid(MAX_NODE_ID));
-        }
         this.nodeId = props.getNodeId();
-        this.EPOCH = props.getEpoch();
+        this.epoch = props.getEpoch();
+        this.node_id_bits = props.getnodeIdBits();
+        this.sequence_bits = props.getSequenceBits();
+        this.NODE_ID_SHIFT = this.sequence_bits;
+        this.TIMESTAMP_SHIFT = sequence_bits + node_id_bits;
+        this.SEQUENCE_MASK = ~(-1L << sequence_bits);
+        if (props.getNodeId() < 0 || props.getNodeId() > ~(-1L << node_id_bits)) {
+            throw new IllegalArgumentException(messageService.getinvalidnodeid(~(-1L << node_id_bits)));
+        }
     }
 
     public synchronized long nextId() {
@@ -48,7 +54,7 @@ public class SnowflakeIdGenerator {
 
         lastTimestamp = currentTimestamp;
 
-        return ((currentTimestamp - EPOCH) << TIMESTAMP_SHIFT)
+        return ((currentTimestamp - epoch) << TIMESTAMP_SHIFT)
                 | (nodeId << NODE_ID_SHIFT)
                 | sequence;
     }
