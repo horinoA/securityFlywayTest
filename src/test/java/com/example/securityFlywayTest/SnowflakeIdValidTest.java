@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 
 import com.example.securityFlywayTest.config.PropertyDiagnostics;
-import com.example.securityFlywayTest.service.TestService;
 import com.example.securityFlywayTest.validator.SnowflakeIdValidator;
 
 @SpringBootTest
@@ -21,8 +20,6 @@ public class SnowflakeIdValidTest {
     @Autowired
     private Environment environment;
 
-    @Autowired
-    private TestService testServic;
 
     @Autowired
     PropertyDiagnostics prop;
