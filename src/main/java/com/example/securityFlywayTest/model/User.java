@@ -8,9 +8,10 @@ import jakarta.validation.constraints.NotNull;
 public record User(
     @ValidSnowflakeId
     @NotNull
-    Long id,
+    String id,
     @NotEmpty
     @Email
     String email,
     String password
+
 ) {} 

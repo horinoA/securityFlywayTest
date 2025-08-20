@@ -15,7 +15,7 @@ public class TestService {
         this.validator = validator;
     }*/
     
-    public void testEpoch() {
+    /*public void testEpoch() {
         System.out.println("epoch from service = " + validator.getEpoch());
-    }
+    }*/
 }

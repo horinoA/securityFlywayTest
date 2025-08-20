@@ -18,6 +18,10 @@ public class PropertyDiagnostics implements ApplicationListener<ApplicationReady
 
     @Value("${snowflake.epoch:NOT_FOUND}")
     private String epochValue;
+    @Value("${snowflake.node_id_bits:NOT_FOUND}")
+    private String nodeIDValue;
+    @Value("${snowflake.sequence_bits:NOT_FOUND}")
+    private String sequenceValue;
 
     public PropertyDiagnostics(Environment environment) {
         this.environment = environment;
@@ -33,9 +37,15 @@ public class PropertyDiagnostics implements ApplicationListener<ApplicationReady
         // 2. 値を Environment から取得
         String prop = environment.getProperty("snowflake.epoch");
         System.out.println("Environment.getProperty(\"snowflake.epoch\") = " + prop);
+        String nodeIdString = environment.getProperty("snowflake.node_id_bits");
+        System.out.println("Environment.getProperty(\"snowflake.node_id_bits\") = " + nodeIdString);
+        String sequenceString = environment.getProperty("snowflake.sequence_bits");
+        System.out.println("Environment.getProperty(\"snowflake.sequence_bits\") = " + sequenceString);
 
         // 3. @Value での取得
         System.out.println("@Value snowflake.epoch = " + epochValue);
+        System.out.println("@Value snowflake.node_id_bits = " + nodeIDValue);
+        System.out.println("@Value snowflake.sequence_bits = " + sequenceValue);
 
         // 4. デフォルトプロファイルの確認
         String[] defaultProfiles = environment.getDefaultProfiles();
