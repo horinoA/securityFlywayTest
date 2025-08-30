@@ -1,4 +1,5 @@
 package com.example.securityFlywayTest.model;
+import com.example.securityFlywayTest.validator.ValidBCrypt;
 import com.example.securityFlywayTest.validator.ValidSnowflakeId;
 
 import jakarta.validation.constraints.Email;
@@ -12,6 +13,6 @@ public record User(
     @NotEmpty
     @Email
     String email,
+    @ValidBCrypt
     String password
-
 ) {} 
