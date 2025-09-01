@@ -20,7 +20,7 @@ class UserValidationTest {
     @Test
     void 有効なSnowflakeIdならエラーなし() {
         //Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        User user = new User(24142424011968512L, "test@example.com", "password");
+        User user = new User(24142424011968512L, "test@example.com", "$2a$12$KFFoYhfSgunepip3mUjEVuVxhnt.vqeamHTzbY1GLcP9gQjLn1ZT6");
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         System.out.println(violations);
         assertThat(violations).isEmpty();
@@ -28,10 +28,27 @@ class UserValidationTest {
 
     @Test
     void 無効なSnowflakeIdならエラー発生() {
-        User user = new User(0l, "test@example.com", "password");
+        User user = new User(0l, "test@example.com", "$2a$12$KFFoYhfSgunepip3mUjEVuVxhnt.vqeamHTzbY1GLcP9gQjLn1ZT6");
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertThat(violations).isNotEmpty();
         String actualMessage = violations.iterator().next().getMessage();
-        assertThat(actualMessage).isEqualTo("無効なSnowflake IDです");
+        assertThat(actualMessage).isEqualTo("無効なSnowflakeIDです");
+    }
+
+    @Test
+    void 有効なByCript値ならエラーなし(){
+        User user = new User(24142424011968512L, "test@example.com", "$2a$12$KFFoYhfSgunepip3mUjEVuVxhnt.vqeamHTzbY1GLcP9gQjLn1ZT6");
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        System.out.println(violations);
+        assertThat(violations).isEmpty();
+    }
+
+    @Test
+    void 無効なBycrit値ならエラー(){
+        User user = new User(24142424011968512L, "test@example.com", "password");
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        assertThat(violations).isNotEmpty();
+        String actualMessage = violations.iterator().next().getMessage();
+        assertThat(actualMessage).isEqualTo("無効なハッシュ値です");
     }
 }
